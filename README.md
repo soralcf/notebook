@@ -6,7 +6,7 @@
 
 ## 学习路线
 
-- [软件设计与架构](./software-design-and-architecture/)：通过 Agent Mission Control 贯穿项目学习软件设计与架构。
+- [Agent Mission Control 架构实验室](./agent-mission-control-architecture-lab/)：通过同一个项目贯穿学习软件设计与架构。
 
 ## 公开发布
 
