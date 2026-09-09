@@ -4,9 +4,9 @@
 
 这里会整理学习过程中的笔记、思考与实践记录，方便日后回顾和持续完善。
 
-## 学习路线
+## 学习指引
 
-- [Agent Mission Control 架构实验室](./agent-mission-control-architecture-lab/)：通过同一个项目贯穿学习软件设计与架构。
+- [软件设计与架构学习指引](./software-architecture-learning-guide/)：按知识依赖梳理软件设计、系统结构与架构决策。
 
 ## 公开发布
 
