@@ -1,0 +1,34 @@
+#separator:Tab
+#html:true
+#notetype column:1
+#tags:Golang::GMP
+#deck:Golang
+问答题	M 执行 Go 代码的前提是什么？	持有 P
+问答题	每个 P 自带什么，让分配小对象不必抢全局锁？	<code>mcache</code>
+问答题	<code>GOMAXPROCS</code> 限制的是什么？	同时执行 Go 代码的 P 数量
+问答题	M（OS 线程）由谁调度？	操作系统
+问答题	goroutine 的初始栈多大？	2048 字节
+问答题	阻塞式 syscall 很多时，线程数会怎样？	远超 <code>GOMAXPROCS</code>
+问答题	<code>GOMAXPROCS</code> 从哪个版本起会自动调整？	Go 1.25
+问答题	什么时候 Go 会停止自动调整 <code>GOMAXPROCS</code>？	用户手动调用过 <code>runtime.GOMAXPROCS</code> 之后
+问答题	P 的本地运行队列容量多大？	256
+问答题	本地队列满了，怎么把 G 交给全局队列？	一次倒掉一半（128 个）
+问答题	调度器每多少轮强制看一眼全局队列？	61 轮
+问答题	为什么每 61 轮要看一次全局队列？	防止两个互相唤醒的 G 长期霸占本地队列
+问答题	偷别的 P 的 <code>runnext</code>，是第几轮才做的事？	最后一轮（一共试 4 轮）
+问答题	异步抢占是哪个版本引入的？	Go 1.14
+问答题	异步抢占用哪个信号？	<code>SIGURG</code>
+问答题	为什么用 <code>syscall</code> 包的程序，在 Go 1.14 之后更容易遇到 <code>EINTR</code>？	异步抢占给线程发了更多信号
+问答题	抢占的触发阈值是多少？	10ms，不是时间片
+问答题	正在 syscall 的 P 会被怎么处理？	被 runtime 直接夺走
+问答题	三条阻塞路径里哪条会占住 M？	阻塞式 syscall
+问答题	runtime 内阻塞和网络 IO 时 G 处于什么状态？	<code>_Gwaiting</code>
+问答题	阻塞式 syscall 时 G 处于什么状态？	<code>_Gsyscall</code>
+问答题	Go 高并发网络真正靠的是什么？	netpoller
+问答题	哪个 G 状态还没人负责叫醒？	<code>_Gpreempted</code>
+问答题	为什么 P 可以设得比 CPU 核数还多？	P 只是 runtime 的记账单位，不绑定物理核
+问答题	为什么进了 <code>runnext</code> 的 G 不一定下一个跑？	别的 P 可以把它 CAS 走
+问答题	goroutine 和 async/await 最关键的区别？	goroutine 有真实可增长栈，async 是状态机
+问答题	Go 抢占和 OS 线程抢占的关键区别？	OS 靠硬件时钟中断，Go 靠协作检查点 + <code>SIGURG</code>
+填空题	G 的一生（按经历顺序；另有短暂过渡的 <code>_Gcopystack</code>、泄漏才有的 <code>_Gleaked</code>）：{{c1::<code>_Gidle</code>（未初始化）→ <code>_Grunnable</code>（在运行队列上，不持有栈）→ <code>_Grunning</code>（持有栈、绑定 M）}} → {{c2::<code>_Gsyscall</code>（挂着 P 但不拥有它）→ <code>_Gwaiting</code>（有人负责叫醒它）→ <code>_Gpreempted</code>（还没人负责叫醒）→ <code>_Gdead</code>（结束）}}
+填空题	P 的状态只有 5 个：{{c1::<code>_Pidle</code>（空闲）、<code>_Prunning</code>（在跑）、<code>_Psyscall_unused</code>（已废弃）、<code>_Pgcstop</code>（为 STW 停机）、<code>_Pdead</code>（<code>GOMAXPROCS</code> 缩小时）}}

@@ -1,0 +1,5 @@
+# macOS
+.DS_Store
+
+# Local books and other materials that cannot be shared publicly.
+/.private-library/
